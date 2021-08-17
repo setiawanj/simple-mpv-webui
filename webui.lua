@@ -278,7 +278,7 @@ local endpoints = {
 
   ["api/seek"] = {
     POST = function(request)
-      local t = request.param1
+      local t = request.params[1] or ""
       local valid, msg = validate_number_param(t)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -290,7 +290,7 @@ local endpoints = {
 
   ["api/add"] = {
     POST = function(request)
-      local name, value = request.param1, request.param2
+      local name, value = request.params[1] or "", request.params[2] or ""
       local valid, msg = validate_name_param(name)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -310,7 +310,7 @@ local endpoints = {
 
   ["api/cycle"] = {
     POST = function(request)
-      local name, value = request.param1, request.param2
+      local name, value = request.params[1] or "", request.params[2] or ""
       local valid, msg = validate_name_param(name)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -330,7 +330,7 @@ local endpoints = {
 
   ["api/multiply"] = {
     POST = function(request)
-      local name, value = request.param1, request.param2
+      local name, value = request.params[1] or "", request.params[2] or ""
       local valid, msg = validate_name_param(name)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -346,7 +346,7 @@ local endpoints = {
 
   ["api/set"] = {
     POST = function(request)
-      local name, value = request.param1, request.param2
+      local name, value = request.params[1] or "", request.params[2] or ""
       local valid, msg = validate_name_param(name)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -362,7 +362,7 @@ local endpoints = {
 
   ["api/toggle"] = {
     POST = function(request)
-      local name = request.param1
+      local name = request.params[1] or ""
       local valid, msg = validate_name_param(name)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -375,7 +375,7 @@ local endpoints = {
 
   ["api/set_position"] = {
     POST = function(request)
-      local t = request.param1
+      local t = request.params[1] or ""
       local valid, msg = validate_number_param(t)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -406,7 +406,7 @@ local endpoints = {
 
   ["api/playlist_jump"] = {
     POST = function(request)
-      local p = request.param1
+      local p = request.params[1] or ""
       local valid, msg = validate_number_param(p)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -418,7 +418,7 @@ local endpoints = {
 
   ["api/playlist_remove"] = {
     POST = function(request)
-      local p = request.param1
+      local p = request.params[1] or ""
       local valid, msg = validate_number_param(p)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -430,7 +430,7 @@ local endpoints = {
 
   ["api/playlist_move"] = {
     POST = function(request)
-      local s, t = request.param1, request.param2
+      local s, t = request.params[1] or "", request.params[2] or ""
       args = {s, t}
       for count = 1, 2 do
         local valid, msg = validate_number_param(args[count])
@@ -445,7 +445,7 @@ local endpoints = {
 
   ["api/playlist_move_up"] = {
     POST = function(request)
-      local p = request.param1
+      local p = request.params[1] or ""
       local valid, msg = validate_number_param(p)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -467,7 +467,7 @@ local endpoints = {
 
   ["api/loop_file"] = {
     POST = function(request)
-      local mode = request.param1
+      local mode = request.params[1] or ""
       local valid, msg = validate_loop_param(mode, {"inf", "no"})
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -479,7 +479,7 @@ local endpoints = {
 
   ["api/loop_playlist"] = {
     POST = function(request)
-      local mode = request.param1
+      local mode = request.params[1] or ""
       local valid, msg = validate_loop_param(mode, {"inf", "no", "force"})
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -491,7 +491,7 @@ local endpoints = {
 
   ["api/add_volume"] = {
     POST = function(request)
-      local v = request.param1
+      local v = request.params[1] or ""
       local valid, msg = validate_number_param(v)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -503,7 +503,7 @@ local endpoints = {
 
   ["api/set_volume"] = {
     POST = function(request)
-      local v = request.param1
+      local v = request.params[1] or ""
       local valid, msg = validate_number_param(v)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -515,7 +515,7 @@ local endpoints = {
 
   ["api/add_sub_delay"] = {
     POST = function(request)
-      local sec = request.param1
+      local sec = request.params[1] or ""
       local valid, msg = validate_number_param(sec)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -527,7 +527,7 @@ local endpoints = {
 
   ["api/set_sub_delay"] = {
     POST = function(request)
-      local sec = request.param1
+      local sec = request.params[1] or ""
       local valid, msg = validate_number_param(sec)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -539,7 +539,7 @@ local endpoints = {
 
   ["api/add_audio_delay"] = {
     POST = function(request)
-      local sec = request.param1
+      local sec = request.params[1] or ""
       local valid, msg = validate_number_param(sec)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -551,7 +551,7 @@ local endpoints = {
 
   ["api/set_audio_delay"] = {
     POST = function(request)
-      local sec = request.param1
+      local sec = request.params[1] or ""
       local valid, msg = validate_number_param(sec)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -585,7 +585,7 @@ local endpoints = {
 
   ["api/speed_set"] = {
     POST = function(request)
-      local speed = request.param1
+      local speed = request.params[1] or ""
       if speed == '' then
         speed = '1'
       end
@@ -600,7 +600,7 @@ local endpoints = {
 
   ["api/speed_adjust"] = {
     POST = function(request)
-      local amount = request.param1
+      local amount = request.params[1] or ""
       local valid, msg = validate_number_param(amount)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -612,7 +612,7 @@ local endpoints = {
 
   ["api/add_chapter"] = {
     POST = function(request)
-      local num = request.param1
+      local num = request.params[1] or ""
       local valid, msg = validate_number_param(num)
       if not valid then
         return response(400, "json", utils.format_json({message = msg}), {})
@@ -631,7 +631,7 @@ local endpoints = {
 
   ["api/loadfile"] = {
     POST = function(request)
-      local uri, mode = request.param1, request.param2
+      local uri, mode = request.params[1] or "", request.params[2] or ""
       if uri == "" or type(uri) ~= "string" then
         return response(400, "json", utils.format_json({message = "No url provided!"}), {})
       end
@@ -704,7 +704,7 @@ local function handle_static_get(path)
   local content = read_file(options.static_dir .. "/" .. path)
   local extension = path:match("[^.]+$") or ""
   if content == nil or extension == nil then
-    return response(404, "plain", "Error: Requested URL /"..path.." not found", {})
+    return response(404, "plain", "Error: Requested URL /"..url.escape(path).." not found", {})
   end
   return response(200, extension, content, {})
 end
@@ -727,12 +727,11 @@ local function parse_path(raw_path)
   if path == 'api' then
     path = path .. "/" .. path_components()
   end
-  local param1 = path_components() or ""
-  local param2 = path_components() or ""
-
-  param1 = url.unescape(param1)
-  param2 = url.unescape(param2)
-  return path, param1, param2
+  local params = {}
+  for w in path_components do
+    table.insert(params, url.unescape(w))
+end
+  return path, params
 end
 
 local function call_endpoint(endpoint, req_method, request)
@@ -765,13 +764,13 @@ local function handle_request(request, passwd)
   end
 
   if request.method == "GET" then
-    return handle_static_get(request.path)
+    return handle_static_get(request.full_path)
   elseif file_exists(options.static_dir .. "/" .. request.path) and request.method == "OPTIONS" then
     return response(204, "plain", "", {Allow = "GET,OPTIONS"})
   elseif file_exists(options.static_dir .. "/" .. request.path) then
     return response(405, "plain", "Error: Method not allowed", {Allow = "GET,OPTIONS"})
   end
-  return response(404, "plain", "Error: Requested URL /"..request.path.." not found", {})
+  return response(404, "plain", "Error: Requested URL /"..url.escape(request.full_path).." not found", {})
 end
 
 local function new_request()
@@ -814,9 +813,9 @@ local function parse_request(connection)
     end
     line = connection:receive()
   end
-  if request.method == "POST" then
-    request.path, request.param1, request.param2 = parse_path(request.path)
-  end
+  request.full_path = url.unescape(request.path)
+  request.path, request.params = parse_path(request.path)
+
   return request
 end
 
