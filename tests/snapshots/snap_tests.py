@@ -6,6 +6,21 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
+snapshots["TestsRequests.test_collections[/api/collections-200-mpv_instance0] 1"] = [
+    {"is-directory": True, "path": "/app/tests/environment/test_media"}
+]
+
+snapshots[
+    "TestsRequests.test_collections[/api/collections/%2Fapp%2Ftests%2Fenvironment%2Ftest_media-200-mpv_instance0] 1"
+] = [
+    {"is-directory": False, "path": "/app/tests/environment/test_media/01 - dummy.mp3"},
+    {"is-directory": False, "path": "/app/tests/environment/test_media/02 - dummy.mp3"},
+    {"is-directory": False, "path": "/app/tests/environment/test_media/03 - dummy.mp3"},
+    {"is-directory": False, "path": "/app/tests/environment/test_media/dummy.mp4"},
+    {"is-directory": False, "path": "/app/tests/environment/test_media/dummy.srt"},
+    {"is-directory": False, "path": "/app/tests/environment/test_media/metadata"},
+]
+
 snapshots["TestsRequests.test_post_wrong_args[add-&-foo] 1"] = {
     "message": "Parameter name contains invalid characters"
 }

@@ -27,6 +27,7 @@ local options = {
   audio_devices = '',
   static_dir = script_path() .. "webui-page",
   htpasswd_path = "",
+  collections = "",
 }
 read_options(options, "webui")
 
@@ -649,13 +650,77 @@ local endpoints = {
       local _, success, ret = pcall(mp.commandv, "loadfile", uri, mode)
       return handle_post(success, ret)
     end
+  },
+  ["api/collections"] = {
+    GET = function(request)
+      local fs_path = request.params[1] or ""
+
+      if fs_path == "" then
+        local json = {}
+        for _,collection in ipairs(options.collections) do
+          table.insert(json, {path = collection, ["is-directory"] = true})
+        end
+        return response(200, "json", utils.format_json(json), {})
+      end
+
+      if not is_path_in_collection(fs_path) or not dir_exists(fs_path) then
+        return response(404, "plain", "Error: Requested URL /"..url.escape(request.full_path).." not found", {})
+      end
+
+      local json = {}
+
+      for _,dir in ipairs(scandir(fs_path, "d")) do
+        table.insert(json, {path = dir, ["is-directory"] = true})
+      end
+
+      for _,file in ipairs(scandir(fs_path, "f")) do
+        table.insert(json, {path = file, ["is-directory"] = false})
+      end
+
+      return response(200, "json", utils.format_json(json), {})
+    end
   }
 }
+
+function is_path_in_collection(path)
+  for _,collection in ipairs(options.collections) do
+    if string.starts(path, collection) then
+      return true
+    end
+  end
+  return false
+end
+
+-- Lua implementation of PHP scandir function
+-- Adapted from https://stackoverflow.com/a/11130774
+function scandir(directory, type)
+  local t, popen = {}, io.popen
+  -- TODO: add `-print0` and split at null bytes so it works with filenames containing newlines
+  command = 'find "' .. directory .. '" -maxdepth 1 ! -path "' .. directory .. '" -type ' .. type
+  if package.cpath:match("%p[\\|/]?%p(%a+)") == "dll" then
+    local w_type = "/a-d"
+    if type == "d" then
+      w_type = "/ad"
+    end
+    command = 'dir "'..directory..'" /b ' .. w_type
+  end
+  local pfile = popen(command)
+  for filename in pfile:lines() do
+    table.insert(t, filename)
+  end
+  pfile:close()
+  return t
+end
 
 local function file_exists(file)
   local f = io.open(file, "rb")
   if f then f:close() end
   return f ~= nil
+end
+
+function dir_exists(path)
+   -- "/" works on both Unix and Windows
+   return file_exists(path.."/")
 end
 
 local function lines_from(file)
@@ -885,6 +950,18 @@ local function init_servers()
   return servers
 end
 
+local function parse_collections()
+  local collections = {}
+  for token in string.gmatch(options.collections, "[^;]+") do
+    if not dir_exists(token) then
+      mp.msg.error("No such directory: " .. token)
+    else
+      table.insert(collections, token)
+    end
+  end
+  options.collections = collections
+end
+
 if options.disable then
   mp.msg.info("disabled")
   message = function() log_osd("disabled") end
@@ -895,6 +972,7 @@ end
 
 local passwd = get_passwd(options.htpasswd_path)
 local servers = init_servers()
+parse_collections()
 
 if passwd ~= 1 then
   if next(servers) == nil then
