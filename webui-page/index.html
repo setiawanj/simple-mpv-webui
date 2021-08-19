@@ -3,7 +3,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="user-scalable=no">
     <meta name="author" content="Fabio Ambauen">
-    <title>simple-mpv-webui</title>
+    <title>JS simple-mpv-webui</title>
     <link rel="apple-touch-icon" sizes="180x180" href="static/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="static/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="static/favicons/favicon-16x16.png">
@@ -96,6 +96,18 @@
     <h1 id="title">Title</h1>
     <h2 id="artist">Artist</h2>
     <h3 id="album">Album</h3>
+
+    <script>
+      function loadfile () {
+        let loadfileText = document.querySelector("#loadfile");
+        let uri = loadfileText.value;
+        send('loadfile', encodeURIComponent(uri));
+        loadfileText.value = '';
+      }
+    </script>
+
+    <input type="text" id="loadfile">
+    <div onClick="loadfile()" class="" title="Load File">[Load File]</div>
 
     <div class="table">
       <table class="prop-table">
