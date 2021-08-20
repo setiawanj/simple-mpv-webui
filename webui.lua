@@ -122,6 +122,7 @@ local function build_status_response()
     ["loop-file"] = mp.get_property_native("loop-file"),
     ["loop-playlist"] = mp.get_property_native("loop-playlist"),
     metadata = mp.get_property_native("metadata") or '',
+    ["mute"] = mp.get_property("mute") or '',
     pause = mp.get_property_native("pause"),
     panscan = mp.get_property_native("panscan"),
     playlist = mp.get_property_native("playlist") or '',
@@ -514,6 +515,20 @@ local endpoints = {
     end
   },
 
+  ["api/toggle_mute"] = {
+    POST = function(_)
+      local mute = mp.get_property("mute")
+      local new_mute = "no"
+
+      if mute == "no" then
+        new_mute = "yes"
+      end
+
+      local _, success, ret = pcall(mp.commandv, 'osd-msg', 'set', 'mute', new_mute)
+      return handle_post(success, ret)
+    end
+  },
+
   ["api/add_sub_delay"] = {
     POST = function(request)
       local sec = request.param1
@@ -652,7 +667,7 @@ local endpoints = {
     end
   },
 
-  ["api/panscan_toggle"] = {
+  ["api/toggle_panscan"] = {
     POST = function(_)
       local panscan = mp.get_property('panscan') + 0.0
       local new_panscan = 0
