@@ -123,6 +123,7 @@ local function build_status_response()
     ["loop-playlist"] = mp.get_property_native("loop-playlist"),
     metadata = mp.get_property_native("metadata") or '',
     pause = mp.get_property_native("pause"),
+    panscan = mp.get_property_native("panscan"),
     playlist = mp.get_property_native("playlist") or '',
     position = mp.get_property_native("time-pos") or '',
     remaining = mp.get_property_native("playtime-remaining") or '',
@@ -277,7 +278,7 @@ local endpoints = {
   },
 
   ["api/seek"] = {
-    POST = function(_)
+    POST = function(request)
       local t = request.param1
       local valid, msg = validate_number_param(t)
       if not valid then
@@ -289,7 +290,7 @@ local endpoints = {
   },
 
   ["api/add"] = {
-    POST = function(_)
+    POST = function(request)
       local name, value = request.param1, request.param2
       local valid, msg = validate_name_param(name)
       if not valid then
@@ -309,7 +310,7 @@ local endpoints = {
   },
 
   ["api/cycle"] = {
-    POST = function(_)
+    POST = function(request)
       local name, value = request.param1, request.param2
       local valid, msg = validate_name_param(name)
       if not valid then
@@ -329,7 +330,7 @@ local endpoints = {
   },
 
   ["api/multiply"] = {
-    POST = function(_)
+    POST = function(request)
       local name, value = request.param1, request.param2
       local valid, msg = validate_name_param(name)
       if not valid then
@@ -345,7 +346,7 @@ local endpoints = {
   },
 
   ["api/set"] = {
-    POST = function(_)
+    POST = function(request)
       local name, value = request.param1, request.param2
       local valid, msg = validate_name_param(name)
       if not valid then
@@ -361,7 +362,7 @@ local endpoints = {
   },
 
   ["api/toggle"] = {
-    POST = function(_)
+    POST = function(request)
       local name = request.param1
       local valid, msg = validate_name_param(name)
       if not valid then
@@ -374,7 +375,7 @@ local endpoints = {
   },
 
   ["api/set_position"] = {
-    POST = function(_)
+    POST = function(request)
       local t = request.param1
       local valid, msg = validate_number_param(t)
       if not valid then
@@ -405,7 +406,7 @@ local endpoints = {
   },
 
   ["api/playlist_jump"] = {
-    POST = function(_)
+    POST = function(request)
       local p = request.param1
       local valid, msg = validate_number_param(p)
       if not valid then
@@ -417,7 +418,7 @@ local endpoints = {
   },
 
   ["api/playlist_remove"] = {
-    POST = function(_)
+    POST = function(request)
       local p = request.param1
       local valid, msg = validate_number_param(p)
       if not valid then
@@ -429,7 +430,7 @@ local endpoints = {
   },
 
   ["api/playlist_move"] = {
-    POST = function(_)
+    POST = function(request)
       local s, t = request.param1, request.param2
       args = {s, t}
       for count = 1, 2 do
@@ -444,7 +445,7 @@ local endpoints = {
   },
 
   ["api/playlist_move_up"] = {
-    POST = function(_)
+    POST = function(request)
       local p = request.param1
       local valid, msg = validate_number_param(p)
       if not valid then
@@ -466,7 +467,7 @@ local endpoints = {
   },
 
   ["api/loop_file"] = {
-    POST = function(_)
+    POST = function(request)
       local mode = request.param1
       local valid, msg = validate_loop_param(mode, {"inf", "no"})
       if not valid then
@@ -478,7 +479,7 @@ local endpoints = {
   },
 
   ["api/loop_playlist"] = {
-    POST = function(_)
+    POST = function(request)
       local mode = request.param1
       local valid, msg = validate_loop_param(mode, {"inf", "no", "force"})
       if not valid then
@@ -490,7 +491,7 @@ local endpoints = {
   },
 
   ["api/add_volume"] = {
-    POST = function(_)
+    POST = function(request)
       local v = request.param1
       local valid, msg = validate_number_param(v)
       if not valid then
@@ -502,7 +503,7 @@ local endpoints = {
   },
 
   ["api/set_volume"] = {
-    POST = function(_)
+    POST = function(request)
       local v = request.param1
       local valid, msg = validate_number_param(v)
       if not valid then
@@ -514,7 +515,7 @@ local endpoints = {
   },
 
   ["api/add_sub_delay"] = {
-    POST = function(_)
+    POST = function(request)
       local sec = request.param1
       local valid, msg = validate_number_param(sec)
       if not valid then
@@ -526,7 +527,7 @@ local endpoints = {
   },
 
   ["api/set_sub_delay"] = {
-    POST = function(_)
+    POST = function(request)
       local sec = request.param1
       local valid, msg = validate_number_param(sec)
       if not valid then
@@ -538,7 +539,7 @@ local endpoints = {
   },
 
   ["api/add_audio_delay"] = {
-    POST = function(_)
+    POST = function(request)
       local sec = request.param1
       local valid, msg = validate_number_param(sec)
       if not valid then
@@ -550,7 +551,7 @@ local endpoints = {
   },
 
   ["api/set_audio_delay"] = {
-    POST = function(_)
+    POST = function(request)
       local sec = request.param1
       local valid, msg = validate_number_param(sec)
       if not valid then
@@ -584,7 +585,7 @@ local endpoints = {
   },
 
   ["api/speed_set"] = {
-    POST = function(_)
+    POST = function(request)
       local speed = request.param1
       if speed == '' then
         speed = '1'
@@ -599,7 +600,7 @@ local endpoints = {
   },
 
   ["api/speed_adjust"] = {
-    POST = function(_)
+    POST = function(request)
       local amount = request.param1
       local valid, msg = validate_number_param(amount)
       if not valid then
@@ -611,7 +612,7 @@ local endpoints = {
   },
 
   ["api/add_chapter"] = {
-    POST = function(_)
+    POST = function(request)
       local num = request.param1
       local valid, msg = validate_number_param(num)
       if not valid then
@@ -630,7 +631,7 @@ local endpoints = {
   },
 
   ["api/loadfile"] = {
-    POST = function(_)
+    POST = function(request)
       local uri, mode = request.param1, request.param2
       if uri == "" or type(uri) ~= "string" then
         return response(400, "json", utils.format_json({message = "No url provided!"}), {})
