@@ -8,6 +8,8 @@ body {
 .lcd-font {
   font-family: DS-Digital;
   font-size: 2rem;
+  color: #d7f7ff;
+  text-shadow: 0 0 4px #d7f7ffaa;
 }
 
 .controller-container {
@@ -16,6 +18,7 @@ body {
   margin-top: 30px;
   background-color: #353535;
   padding: 20px;
+  border-radius: 20px;
 }
 
 .display {
@@ -26,6 +29,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  box-shadow: inset 0 1.3px 1.7px 0 rgb(255 255 255 / 36%);
 }
 
 .display > * {
@@ -42,6 +46,52 @@ body {
   flex-direction: row;
 }
 
+.seekbar {
+  flex-grow: 2;
+}
+
+.seekbar input {
+  width: calc(100% - 40px);
+  margin: 0 20px;
+}
+
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  height: 100%;
+  width: 1px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  box-shadow: calc(-100vw - 5px) 0 3px 100vw #d7f7ff;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  height: 32px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.2px solid #010101;
+  overflow: hidden;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='7px' height='25px'%3E%3Cpath fill-rule='evenodd' fill='rgb(255, 255, 255)' d='M2.000,-0.000 C3.105,-0.000 4.000,0.895 4.000,2.000 L4.000,23.000 C4.000,24.105 3.105,25.000 2.000,25.000 C0.895,25.000 -0.000,24.105 -0.000,23.000 L-0.000,2.000 C-0.000,0.895 0.895,-0.000 2.000,-0.000 Z'/%3E%3C/svg%3E");
+  -webkit-mask-position: 1px center;
+  -webkit-mask-repeat: repeat no-repeat;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .playback-details {
   display: flex;
 }
@@ -53,4 +103,59 @@ body {
 
 .detail-value {
   margin: 0 30px 0 10px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.big-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.big-button {
+  cursor: pointer;
+  width: 140px;
+  height: 110px;
+  margin: 30px 0;
+  background-color: #393939;
+  border-radius: 5px;
+  box-shadow: 
+    inset 0px -1px 0px 0px rgb(0 0 0 / 50%), 
+    inset 0px 1px 0.8px 0px rgb(255 255 255 / 23%);
+}
+
+.small-buttons {
+  display: flex;
+}
+
+.small-buttons > * {
+  width: 60px;
+  text-align: center;
+  color: white;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.small-button {
+  cursor: pointer;
+  width: 55px;
+  height: 25px;
+  border-radius: 6px;
+  background-color: #222222;
+      box-shadow: 
+      0px -2px 3px 1px rgb(0 0 0 / 40%), 
+      0px 1px 3px 1px rgb(255 255 255 / 20%), 
+      inset 0px -2px 4px 2px rgb(0 0 0 / 40%), 
+      inset 0px 1.5px 1.3px 0px rgb(255 255 255 / 30%), 
+      0 0 1px 1px rgb(0 0 0 / 70%);
+}
+
+.small-button-label {
+  margin: 15px 0;
 }
