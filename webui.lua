@@ -679,6 +679,16 @@ local endpoints = {
       local _, success, ret = pcall(mp.commandv, 'osd-msg', 'set', 'panscan', new_panscan)
       return handle_post(success, ret)
     end
+  },
+
+  ["api/video_scale_x"] = {
+    POST = function(request)
+      local scale_x = request.param1
+
+      local _, success_x, ret_x = pcall(mp.commandv, 'osd-msg', 'set', 'video-scale-x', scale_x)
+
+      return handle_post(success_x, ret_x)
+    end
   }
 }
 

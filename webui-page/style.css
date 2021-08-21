@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  background-color: #232323;
+}
+
+.lcd-font {
+  font-family: DS-Digital;
+  font-size: 2rem;
+}
+
+.controller-container {
+  width: 960px;
+  margin: 0 auto;
+  margin-top: 30px;
+  background-color: #353535;
+  padding: 20px;
+}
+
+.display {
+  background-color: #0f0f0f;
+  margin: 0 auto;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.display > * {
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+.display > *:last-of-type {
+  margin-bottom: 10px;
+}
+
+.seek {
+  display: flex;
+  flex-direction: row;
+}
+
+.playback-details {
+  display: flex;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+}
+
+.detail-value {
+  margin: 0 30px 0 10px;
+}
