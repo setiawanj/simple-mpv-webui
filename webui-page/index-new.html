@@ -6,7 +6,7 @@
 
   <div class="controller-container">
 
-    <div class="display">
+    <div class="display thin-convex-gloss">
       <div class="display-text">
         <div class="title lcd-font">Neon Genesis Evangelion (A Cruel Angel's Thesis)</div>
       </div>
@@ -49,47 +49,102 @@
 
     <div class="controls">
       <div class="big-buttons">
-        <div class="previous-track big-button"></div>
-        <div class="rewind big-button"></div>
-        <div class="stop big-button"></div>
-        <div class="pause-play big-button"></div>
-        <div class="fast-forward big-button"></div>
-        <div class="next-track big-button"></div>
+        <div class="previous-track big-button medium-convex-gloss"></div>
+        <div class="rewind big-button medium-convex-gloss"></div>
+        <div class="stop big-button medium-convex-gloss"></div>
+        <div class="pause-play big-button medium-convex-gloss"></div>
+        <div class="fast-forward big-button medium-convex-gloss"></div>
+        <div class="next-track big-button medium-convex-gloss"></div>
       </div>
 
-      <div class="small-buttons">
-        <div class="pair-buttons">
-          <div class="small-button"></div>
-          <div class="small-button-label">PLAYBACK SPEED</div>
-          <div class="small-button"></div>
+      <div class="bottom-section">
+        <div class="more-functions">
+
+          <div class="section volume-slider">
+            <div class="volume-slider-label">VOLUME</div>
+            <input type="range" min="0" max="1219.485" value="0" step="any" class="slider" id="mediaPosition" list="chapters" title="00:03:48">
+            <div class="volume-markers">
+              <div class="volume-marker">0</div>
+              <div class="volume-marker">10</div>
+              <div class="volume-marker">20</div>
+              <div class="volume-marker">30</div>
+              <div class="volume-marker">40</div>
+              <div class="volume-marker">50</div>
+              <div class="volume-marker">60</div>
+              <div class="volume-marker">70</div>
+              <div class="volume-marker">80</div>
+              <div class="volume-marker">90</div>
+              <div class="volume-marker">100</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="single-button">
+              <div class="small-button-label">LOOP</div>
+              <div class="small-button"></div>
+            </div>
+            <div class="single-button">
+              <div class="small-button-label">SUBTITLE TRACK</div>
+              <div class="small-button"></div>
+            </div>
+            <div class="single-button">
+              <div class="small-button-label">AUDIO TRACK</div>
+              <div class="small-button"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="pair-buttons">
+              <div class="small-button"></div>
+              <div class="small-button-label">PLAYBACK SPEED</div>
+              <div class="small-button"></div>
+            </div>
+            <div class="pair-buttons">
+              <div class="small-button"></div>
+              <div class="small-button-label">SUBTITLE DELAY</div>
+              <div class="small-button"></div>
+            </div>
+            <div class="pair-buttons">
+              <div class="small-button"></div>
+              <div class="small-button-label">AUDIO DELAY</div>
+              <div class="small-button"></div>
+            </div>
+            <div class="pair-buttons">
+              <div class="small-button"></div>
+              <div class="small-button-label">PLAYBACK SPEED</div>
+              <div class="small-button"></div>
+            </div>
+          </div>
+
         </div>
-        <div class="pair-buttons">
-          <div class="small-button"></div>
-          <div class="small-button-label">SUBTITLE DELAY</div>
-          <div class="small-button"></div>
+
+        <div class="file-changer thin-convex-gloss">
+          <div class="file-changer-label">ADVANCED MULTI FILE CHANGER</div>
+          <div class="slot-loader">
+            <div class="slot">
+              <input type="text" class="file-loader">
+            </div>
+            <div class="slot-button medium-convex-gloss"></div>
+          </div>
+          <div class="playlist thin-concave-gloss">
+            <div class="playlist-item">
+              <div class="playlist-item-led"></div>
+              <div class="playlist-item-title lcd-font">Video 1.mp4</div>
+              <div class="playlist-item-remove"></div>
+            </div>
+            <div class="playlist-item">
+              <div class="playlist-item-led"></div>
+              <div class="playlist-item-title lcd-font">Video 2.mp4</div>
+              <div class="playlist-item-remove"></div>
+            </div>
+            <div class="playlist-item">
+              <div class="playlist-item-led"></div>
+              <div class="playlist-item-title lcd-font">Video 3.mp4</div>
+              <div class="playlist-item-remove"></div>
+            </div>
+          </div>
         </div>
-        <div class="pair-buttons">
-          <div class="small-button"></div>
-          <div class="small-button-label">AUDIO DELAY</div>
-          <div class="small-button"></div>
-        </div>
-        <div class="pair-buttons">
-          <div class="small-button"></div>
-          <div class="small-button-label">PLAYBACK SPEED</div>
-          <div class="small-button"></div>
-        </div>
-        <div class="single-button">
-          <div class="small-button-label">LOOP</div>
-          <div class="small-button"></div>
-        </div>
-        <div class="single-button">
-          <div class="small-button-label">SUBTITLE TRACK</div>
-          <div class="small-button"></div>
-        </div>
-        <div class="single-button">
-          <div class="small-button-label">AUDIO TRACK</div>
-          <div class="small-button"></div>
-        </div>
+
       </div>
 
     </div>
