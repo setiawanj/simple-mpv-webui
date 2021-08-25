@@ -49,12 +49,53 @@
 
     <div class="controls">
       <div class="big-buttons">
-        <div class="previous-track big-button medium-convex-gloss"></div>
-        <div class="rewind big-button medium-convex-gloss"></div>
-        <div class="stop big-button medium-convex-gloss"></div>
-        <div class="pause-play big-button medium-convex-gloss"></div>
-        <div class="fast-forward big-button medium-convex-gloss"></div>
-        <div class="next-track big-button medium-convex-gloss"></div>
+        <svg style="display: none">
+          <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feComponentTransfer in=SourceAlpha>
+              <feFuncA type="table" tableValues="1 0" />
+            </feComponentTransfer>
+            <feGaussianBlur stdDeviation="3"/>
+            <feOffset dx="0" dy="4" result="offsetblur"/>
+            <feFlood flood-color="black" result="color"/>
+            <feComposite in2="offsetblur" operator="in"/>
+            <feComposite in2="SourceAlpha" operator="in" />
+            <feMerge>
+              <feMergeNode in="SourceGraphic" />
+              <feMergeNode />
+            </feMerge>
+          </filter>
+        </svg>
+
+        <div class="previous-track big-button medium-convex-gloss bg-green">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="105px" height="47px">
+            <path filter="url(#inset-shadow)" fill-rule="evenodd"  fill="#00000055" d="M59.850,21.833 L59.850,41.500 L18.342,21.589 L59.850,2.370 L59.850,21.354 L100.850,2.370 L100.850,41.500 L59.850,21.833 ZM3.978,2.875 L17.813,2.875 L17.813,41.304 L3.978,41.304 L3.978,2.875 Z"/>
+          </svg>
+        </div>
+        <div class="rewind big-button medium-convex-gloss bg-purple">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="89px" height="47px">
+            <path filter="url(#inset-shadow)" fill-rule="evenodd"  fill="#00000055" d="M85.006,41.005 L44.255,22.082 L44.255,41.005 L2.998,21.847 L44.255,2.000 L44.255,21.604 L85.006,2.000 L85.006,41.005 Z"/>
+          </svg>
+        </div>
+        <div class="stop big-button medium-convex-gloss bg-blue">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="47px" height="47px">
+            <path filter="url(#inset-shadow)" fill-rule="evenodd"  fill="#00000055" d="M3.000,2.000 L42.992,2.000 L42.992,41.992 L3.000,41.992 L3.000,2.000 Z"/>
+          </svg>
+        </div>
+        <div class="pause-play big-button medium-convex-gloss">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="94px" height="47px">
+            <path filter="url(#inset-shadow)" fill-rule="evenodd"  fill="#00000055" d="M47.962,41.505 L47.962,2.375 L89.471,22.286 L47.962,41.505 ZM23.752,2.571 L37.586,2.571 L37.586,42.000 L23.752,42.000 L23.752,2.571 ZM3.000,2.571 L16.835,2.571 L16.835,42.000 L3.000,42.000 L3.000,2.571 Z"/>
+          </svg>
+        </div>
+        <div class="fast-forward big-button medium-convex-gloss bg-red">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="91px" height="47px">
+            <path filter="url(#inset-shadow)" fill-rule="evenodd"  fill="#00000055" d="M86.471,22.286 L44.962,41.505 L44.962,22.521 L3.962,41.505 L3.962,2.375 L44.962,22.042 L44.962,2.375 L86.471,22.286 Z"/>
+          </svg>
+        </div>
+        <div class="next-track big-button medium-convex-gloss bg-yellow">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="105px" height="47px">
+            <path filter="url(#inset-shadow)" fill-rule="evenodd"  fill="#00000055" d="M87.000,41.000 L87.000,2.571 L100.835,2.571 L100.835,41.000 L87.000,41.000 ZM44.962,22.521 L3.962,41.505 L3.962,2.375 L44.962,22.042 L44.962,2.375 L86.471,22.286 L44.962,41.505 L44.962,22.521 Z"/>
+          </svg>
+        </div>
       </div>
 
       <div class="bottom-section">
