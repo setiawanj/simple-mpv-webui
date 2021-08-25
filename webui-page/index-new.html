@@ -8,7 +8,7 @@
 
     <div class="display thin-convex-gloss">
       <div class="display-text">
-        <div class="title lcd-font">Neon Genesis Evangelion (A Cruel Angel's Thesis)</div>
+        <div class="title lcd-font" id="title"></div>
       </div>
 
       <div class="seek">
@@ -42,7 +42,7 @@
         </div>
         <div class="detail audio-track">
           <div class="detail-label">AUDIO TRACK</div>
-          <div class="detail-value lcd-font">1/1</div>
+          <div class="detail-value lcd-font">0/0</div>
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@
 
           <div class="section volume-slider">
             <div class="volume-slider-label">VOLUME</div>
-            <input type="range" min="0" max="1219.485" value="0" step="any" class="slider" id="mediaPosition" list="chapters" title="00:03:48">
+            <input type="range" min="0" max="100" value="0" step="any" class="slider" id="volume" list="chapters" title="00:03:48">
             <div class="volume-markers">
               <div class="volume-marker">0</div>
               <div class="volume-marker">10</div>
@@ -192,6 +192,6 @@
 
   </div>
 
-
+  <script src="webui-new.js"></script>
 
 </html>

@@ -66,6 +66,10 @@ body {
   flex-direction: row;
 }
 
+.current-time {
+  min-width: 3.5em;
+}
+
 .seekbar {
   flex-grow: 2;
 }
