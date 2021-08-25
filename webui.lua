@@ -179,6 +179,7 @@ local function get_content_type(file_type)
     xml         = "application/xml; charset=UTF-8",
     css         = "text/css; charset=UTF-8",
     woff2       = "font/woff2; charset=UTF-8",
+    ttf       = "font/ttf",
     mp3         = "audio/mpeg",
     webmanifest = "application/manifest+json; charset=UTF-8",
   }

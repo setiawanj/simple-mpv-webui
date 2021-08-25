@@ -1,3 +1,8 @@
+@font-face {
+  font-family: ds-digi;
+  src: url(static/fonts/ds-digi.ttf);
+}
+
 body {
   margin: 0;
   font-family: Helvetica, Arial, sans-serif;
@@ -7,7 +12,7 @@ body {
 }
 
 .lcd-font {
-  font-family: DS-Digital;
+  font-family: ds-digi;
   font-size: 2rem;
   color: #d7f7ff;
   text-shadow: 0 0 4px #d7f7ffaa;
