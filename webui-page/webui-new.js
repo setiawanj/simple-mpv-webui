@@ -49,7 +49,7 @@ function hideOverlays() {
   hideOverlay('settings-overlay');
 }
 
-function createPlaylistTable(entry, position, pause, first) {
+function createPlaylistItem(entry, position, pause, first) {
   function setActive(set) {
     if (set === true) {
       td_left.classList.add('active');
@@ -60,13 +60,6 @@ function createPlaylistTable(entry, position, pause, first) {
     }
   }
 
-  function blink() {
-     td_left.classList.add('click');
-     td_2.classList.add('click');
-     setTimeout(function(){ td_left.classList.remove('click');
-     td_2.classList.remove('click');}, 100);
-  }
-
   let title;
   if (entry.title) {
     title = entry.title;
@@ -75,91 +68,65 @@ function createPlaylistTable(entry, position, pause, first) {
     title = filename_array[filename_array.length - 1];
   }
 
-  const table = document.createElement('table');
-  const tr = document.createElement('tr');
-  const td_left = document.createElement('td');
-  const td_2 = document.createElement('td');
-  const td_3 = document.createElement('td')
-  const td_right = document.createElement('td');
-  table.className = 'playlist';
-  tr.className = 'playlist';
-  td_2.className = 'playlist';
-  td_left.className = 'playlist';
-  td_right.className = 'playlist';
-  td_2.innerText = title;
-  if (first === false) {
-    td_3.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    td_3.className = 'playlist';
-  }
-  td_right.innerHTML = '<i class="fas fa-trash"></i>';
+// <div class="playlist-item">
+//   <div class="playlist-item-led"></div>
+//   <div class="playlist-item-title lcd-font">Video 1.mp4</div>
+//   <div class="playlist-item-remove"></div>
+// </div>
+
+  let playlistItem = document.createElement("div");
+  playlistItem.classList.add("playlist-item");
+
+  let itemLed = document.createElement("div");
+  itemLed.classList.add("playlist-item-led");
 
   if (entry.hasOwnProperty('playing')) {
-    if (pause) {
-      td_left.innerHTML = '<i class="fas fa-pause"></i>';
-    } else {
-      td_left.innerHTML = '<i class="fas fa-play"></i>';
-    }
-
-    td_left.classList.add('playing');
-    td_left.classList.add('violet');
-    td_2.classList.add('playing');
-    td_2.classList.add('violet');
-      first || td_3.classList.add('violet');
-    td_right.classList.add('violet');
-
-  } else {
-    td_left.classList.add('gray');
-    td_2.classList.add('gray');
-    first || td_3.classList.add('gray');
-    td_right.classList.add('gray');
-
-    td_left.onclick = td_2.onclick = function(arg) {
-        return function() {
-            send("playlist_jump", arg);
-            return false;
-        }
-    }(position);
-
-    td_left.addEventListener("mouseover", function() {setActive(true)});
-    td_left.addEventListener("mouseout", function() {setActive(false)});
-    td_2.addEventListener("mouseover", function() {setActive(true)});
-    td_2.addEventListener("mouseout", function() {setActive(false)});
-
-    td_left.addEventListener("click", blink);
-    td_2.addEventListener("click", blink);
+    itemLed.classList.add("led-on");
   }
 
-  if (first === false) {
-    td_3.onclick = function (arg) {
-      return function () {
-        send("playlist_move_up", arg);
-        return false;
-      }
-    }(position);
-  }
+  let itemTitle = document.createElement("div");
+  itemTitle.classList.add("playlist-item-title", "lcd-font");
+  itemTitle.innerText = title;
 
-  td_right.onclick = function(arg) {
+  let itemRemove = document.createElement("div");
+  itemRemove.classList.add("playlist-item-remove");
+
+
+  itemTitle.onclick = function(arg) {
       return function() {
-          send("playlist_remove", arg);
+          send("playlist_jump", arg);
           return false;
       }
   }(position);
 
-  tr.appendChild(td_left);
-  tr.appendChild(td_2);
-  first || tr.appendChild(td_3);
-  tr.appendChild(td_right);
-  table.appendChild(tr);
-  return table;
+  playlistItem.appendChild(itemLed);
+  playlistItem.appendChild(itemTitle);
+  playlistItem.appendChild(itemRemove);
+    
+  // td_3.onclick = function (arg) {
+  //   return function () {
+  //     send("playlist_move_up", arg);
+  //     return false;
+  //   }
+  // }(position);
+
+  // td_right.onclick = function(arg) {
+  //     return function() {
+  //         send("playlist_remove", arg);
+  //         return false;
+  //     }
+  // }(position);
+
+  return playlistItem;
 }
 
 function populatePlaylist(json, pause) {
-  const playlist = document.getElementById('playlist');
+  const playlist = document.querySelector('.playlist');
   playlist.innerHTML = "";
 
   let first = true;
   for(let i = 0; i < json.length; ++i) {
-    playlist.appendChild(createPlaylistTable(json[i], i, pause, first));
+    playlist.appendChild(createPlaylistItem(json[i], i, pause, first));
     if (first === true) {
       first = false
     }
@@ -532,27 +499,38 @@ document.getElementById("volume").oninput = function() {
 };
 
 function setPlayPause(value) {
-  const playPause = document.getElementsByClassName('playPauseButton');
+  let playIcon = document.querySelector(".play-small-icon");
+  let pauseIcon = document.querySelector(".pause-small-icon");
+  // const playPause = document.getElementsByClassName('playPauseButton');
 
-  if (useNotifications()) {
-    navigator.mediaSession.playbackState = value ? 'paused' : 'playing';
-  }
+  // if (useNotifications()) {
+  //   navigator.mediaSession.playbackState = value ? 'paused' : 'playing';
+  // }
 
   // const playPause = document.getElementById("playPause");
+
   if (value) {
-    [].slice.call(playPause).forEach(function (div) {
-      div.innerHTML = '<i class="fas fa-play"></i>';
-    });
-    if (useNotifications()) {
-      audioPause();
-    }
+
+    playIcon.classList.remove("glow");
+    pauseIcon.classList.add("glow");
+
+    // [].slice.call(playPause).forEach(function (div) {
+    //   div.innerHTML = '<i class="fas fa-play"></i>';
+    // });
+    // if (useNotifications()) {
+    //   audioPause();
+    // }
   } else {
-    [].slice.call(playPause).forEach(function (div) {
-      div.innerHTML = '<i class="fas fa-pause"></i>';
-    });
-    if (useNotifications()) {
-      audioPlay();
-    }
+
+    playIcon.classList.add("glow");
+    pauseIcon.classList.remove("glow");
+
+    // [].slice.call(playPause).forEach(function (div) {
+    //   div.innerHTML = '<i class="fas fa-pause"></i>';
+    // });
+    // if (useNotifications()) {
+    //   audioPlay();
+    // }
   }
 }
 
@@ -584,7 +562,7 @@ function setChapter(chapters, chapter, chapterList) {
 }
 
 function playlist_loop_cycle() {
-  const loopButton = document.getElementsByClassName('playlistLoopButton');
+  const loopButton = document.querySelector(".loop-button .small-button");
   if (loopButton.value === "no") {
     send("loop_file", "inf");
     send("loop_playlist", "no");
@@ -598,26 +576,48 @@ function playlist_loop_cycle() {
 }
 
 function setLoop(loopFile, loopPlaylist) {
-  const loopButton = document.getElementsByClassName('playlistLoopButton');
-  let html, value;
+  const loopButton = document.querySelector(".loop-button .small-button");
+  let value;
   if (loopFile === false) {
     if (loopPlaylist === false) {
-      html = '!<i class="fas fa-redo-alt"></i>';
+      document.querySelector(".loop-one-small-icon").classList.remove("glow");
+      document.querySelector(".loop-all-small-icon").classList.remove("glow");
       value = "no";
     } else {
-      html = '<i class="fas fa-redo-alt"></i>Σ';
+      document.querySelector(".loop-one-small-icon").classList.remove("glow");
+      document.querySelector(".loop-all-small-icon").classList.add("glow");
       value = "a";
     }
   } else {
-    html = '<i class="fas fa-redo-alt"></i>1';
+    document.querySelector(".loop-one-small-icon").classList.add("glow");
+    document.querySelector(".loop-all-small-icon").classList.remove("glow");
     value = "1";
   }
 
-  [].slice.call(loopButton).forEach(function (div) {
-      div.innerHTML = html;
-    });
-
   loopButton.value = value;
+}
+
+function panscanToggle() {
+  console.log("asfasd");
+  send("toggle_panscan", "");
+}
+
+function setPanscan(panscan) {
+  const panscanButton = document.querySelector(".panscan-button .small-button");
+  let value;
+
+  if (panscan == 1) {
+    document.querySelector(".frame-fill-small-icon").classList.add("glow");
+    document.querySelector(".frame-fit-small-icon").classList.remove("glow");
+    value = "fill";
+  }
+  else {
+    document.querySelector(".frame-fill-small-icon").classList.remove("glow");
+    document.querySelector(".frame-fit-small-icon").classList.add("glow");
+    value = "fit";
+  }
+
+  panscanButton.value = value;
 }
 
 function handleStatusResponse(json) {
@@ -637,14 +637,16 @@ function handleStatusResponse(json) {
   document.querySelector(".audio-delay .detail-value").innerHTML =
     json['audio-delay'];
 
-  // setPlayPause(json['pause']);
+  setPlayPause(json['pause']);
 
   setPosSlider(json['position'], json['duration']);
 
   setVolumeSlider(json['volume'], json['volume-max']);
 
-  // setLoop(json["loop-file"], json["loop-playlist"]);
+  setLoop(json["loop-file"], json["loop-playlist"]);
   
+  setPanscan(json['panscan']);
+
   // setFullscreenButton(json['fullscreen']);
   // setChapter(json['chapters'], json['chapter'], json['chapter-list']);
   populatePlaylist(json['playlist'], json['pause']);
@@ -670,14 +672,23 @@ function status(){
     if (request.readyState === 4 && request.status === 200) {
       const json = JSON.parse(request.responseText);
       handleStatusResponse(json);
+    } else if (request.status === 503) {
+      document.querySelector(".play-small-icon").classList.remove("glow");
+      document.querySelector(".pause-small-icon").classList.remove("glow");
     } else if (request.status === 0) {
-      document.getElementById("title").innerHTML = "<h1><span class='error'>Couldn't connect to MPV!</span></h1>";
+      document.getElementById("title").innerHTML = "Couldn't connect to MPV";
       document.getElementById("artist").innerHTML = "";
       document.getElementById("album").innerHTML = "";
       setPlayPause(true);
     }
   };
-  request.send(null);
+
+  try {
+    request.send(null);
+  }
+  catch(err) {
+    console.log("Status request failed");
+  }
 }
 
 // document.getElementById("disableNotifications").onchange = function() {
@@ -762,7 +773,6 @@ function schedulePeriodicStatus() {
   nextPeriodicRefresh = setTimeout(refreshStatus, refreshInterval);
 }
 function refreshStatus() {
-  console.log("Refreshing status");
   status();
   schedulePeriodicStatus();
 }

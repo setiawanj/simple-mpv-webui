@@ -127,7 +127,7 @@ local function build_status_response()
     panscan = mp.get_property_native("panscan"),
     playlist = mp.get_property_native("playlist") or '',
     position = mp.get_property_native("time-pos") or '',
-    remaining = mp.get_property_native("playtime-remaining") or '',
+    remaining = mp.get_property_native("playtime-remaining") or '0',
     speed = mp.get_property_native('speed') or '',
     ["sub-delay"] = mp.get_property_osd("sub-delay") or '',
     ["track-list"] = mp.get_property_native("track-list") or '',
@@ -664,6 +664,7 @@ local endpoints = {
         mode = "replace"
       end
       local _, success, ret = pcall(mp.commandv, "loadfile", uri, mode)
+      pcall(mp.set_property_bool, "pause", false)
       return handle_post(success, ret)
     end
   },
@@ -689,6 +690,24 @@ local endpoints = {
       local _, success_x, ret_x = pcall(mp.commandv, 'osd-msg', 'set', 'video-scale-x', scale_x)
 
       return handle_post(success_x, ret_x)
+    end
+  },
+
+  ["api/directories"] = {
+    GET = function()
+      local json = utils.readdir("/home/pi", "dirs")
+
+      local result = {}
+
+      for key, value in ipairs(json) do
+        -- prepare json key-value pairs and save them in separate table
+        table.insert(result, string.format("\"%s\": \"%s\"", key, value))
+      end
+
+      -- get simple json string
+      result = "{" .. table.concat(result, ",") .. "}"
+
+      return response(200, "json", result, {})
     end
   }
 }
@@ -739,7 +758,7 @@ end
 
 local function handle_static_get(path)
   if path == "/" then
-    path = 'index.html'
+    path = 'index-new.html'
   end
 
   local content = read_file(options.static_dir .. "/" .. path)

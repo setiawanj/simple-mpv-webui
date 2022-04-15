@@ -583,7 +583,7 @@ function setChapter(chapters, chapter, chapterList) {
 }
 
 function playlist_loop_cycle() {
-  const loopButton = document.getElementsByClassName('playlistLoopButton');
+  const loopButton = document.querySelector(".loop-button .small-button");
   if (loopButton.value === "no") {
     send("loop_file", "inf");
     send("loop_playlist", "no");
@@ -597,17 +597,20 @@ function playlist_loop_cycle() {
 }
 
 function setLoop(loopFile, loopPlaylist) {
-  const loopButton = document.getElementsByClassName('playlistLoopButton');
+  const loopButton = document.querySelector(".loop-button .small-button");
   let html, value;
   if (loopFile === false) {
     if (loopPlaylist === false) {
+      console.log("not looping playlist")
       html = '!<i class="fas fa-redo-alt"></i>';
       value = "no";
     } else {
+      console.log("looping all")
       html = '<i class="fas fa-redo-alt"></i>Σ';
       value = "a";
     }
   } else {
+    console.log("looping one")
     html = '<i class="fas fa-redo-alt"></i>1';
     value = "1";
   }
