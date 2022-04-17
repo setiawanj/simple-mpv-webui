@@ -1,6 +1,7 @@
 require 'mp.options'
 require 'mp.msg'
 utils = require 'mp.utils'
+local json = require 'json'
 local socket = require("socket")
 local dec64 = require("mime").decode("base64")
 local url = require("socket.url")
@@ -27,6 +28,8 @@ local options = {
   audio_devices = '',
   static_dir = script_path() .. "webui-page",
   htpasswd_path = "",
+  browser_path = "/Users/jason/",
+  browser_folder = "TV Shows",
 }
 read_options(options, "webui")
 
@@ -236,6 +239,26 @@ local function handle_post(success, msg)
     return response(200, 'json', response_json, {})
   end
   return response(400, "json", response_json, {})
+end
+
+local function get_subdirectories(path, folder)
+  local directories = utils.readdir(path .. folder, "dirs")
+
+  if (directories == nil or next(directories) == nil) then
+    return {}
+  else 
+    local subdirectories = {}
+
+    -- for key, value in pairs(directories) do
+    --   directories[key] = directory .. "/" .. value
+    -- end
+
+    for key, value in pairs(directories) do
+      subdirectories[value] = get_subdirectories(path .. folder .. "/", value)
+    end
+
+    return subdirectories
+  end
 end
 
 local endpoints = {
@@ -693,9 +716,9 @@ local endpoints = {
     end
   },
 
-  ["api/directories"] = {
+  ["api/directory_contents"] = {
     GET = function()
-      local json = utils.readdir("/home/pi", "dirs")
+      local json = utils.readdir(options.browser_path, "dirs")
 
       local result = {}
 
@@ -708,6 +731,14 @@ local endpoints = {
       result = "{" .. table.concat(result, ",") .. "}"
 
       return response(200, "json", result, {})
+    end
+  },
+
+  ["api/directory_structure"] = {
+    GET = function()
+
+      return response(200, "plain", json:encode(get_subdirectories(options.browser_path, options.browser_folder)), {})
+
     end
   }
 }
