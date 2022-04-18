@@ -409,7 +409,6 @@ input[type=range]:focus {
   height: 360px;
   display: flex;
   flex-direction: row;
-
 }
 
 .file-browser > div {
@@ -427,6 +426,43 @@ input[type=range]:focus {
 
 .directories {
   width: calc(35% - 100px);
+}
+
+.directories li {
+  list-style-type: none;
+  position: relative;
+  padding-top: 15px;
+}
+
+.directories li:before {
+  width: 0.8rem;
+  height: 0.8rem;
+  content: ' ';
+  position: absolute;
+  background-image: url(static/svg/right-arrow.svg);
+  background-repeat: no-repeat;
+  left: -1.2rem;
+  background-position: center;
+}
+
+li > .subdirectories {
+  padding-inline-start: 30px;
+  display: none;
+}
+
+li[data-expanded='true'] > .subdirectories {
+  display: block;
+}
+
+.directories li[data-expanded='true']:before {
+  background-image: url(static/svg/bottom-arrow.svg);
+}
+
+.directory-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right: 1em;
 }
 
 .playlist {
