@@ -303,11 +303,12 @@ input[type=range]:focus {
 
 .bottom-section {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
 
 .bottom-section > div {
-  width: calc(50% - 10px);
+  width: 100%;
 }
 
 .more-functions {
@@ -355,7 +356,7 @@ input[type=range]:focus {
 .file-changer {
   background-color: #222222;
   border-radius: 6px;  
-  height: 370px;
+  height: 500px;
   display: flex;
   flex-direction: column;
 }
@@ -404,16 +405,36 @@ input[type=range]:focus {
   background-color: #828282;
 }
 
-.playlist {
+.file-browser {
+  height: 360px;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.file-browser > div {
   background-color: #0f0f0f;
   border-radius: 10px;
   margin: 20px 10px 15px;
   flex-grow: 2;
-  width: calc(100% - 80px);
-  height: 0;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding-top: 5px;
+  padding-top: 5px;  
+  color: white;
+  font-size: 0.9rem;
+}
+
+.directories {
+  width: calc(35% - 100px);
+}
+
+.playlist {
+  width: calc(65% - 100px);
+}
+
+.file-browser > div::-webkit-scrollbar {
+  display: none;
 }
 
 .playlist-item {
@@ -441,7 +462,6 @@ input[type=range]:focus {
 }
 
 .playlist-item-title {
-  font-size: 1.2rem;
   white-space: nowrap;
   cursor: pointer;
 }
