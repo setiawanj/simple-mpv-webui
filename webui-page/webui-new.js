@@ -765,12 +765,25 @@ function handleDirectoriesResponse(directories) {
   let root = document.querySelector("div.directories > ul.subdirectories");
   root.innerHTML = "";
   root.appendChild(buildDirectoryTree("root", directories));
+  let arrows = document.querySelectorAll(".directory-arrow");
+  arrows.forEach(arrow => {
+    arrow.addEventListener('click', e => {
+      e.currentTarget.parentNode.classList.toggle("expanded");
+    });
+  });
 
 }
 
 function buildDirectoryTree(directoryName, subdirectories) {
   let branch = document.createElement("li");
-  branch.dataset.expanded = 'true';
+  if (directoryName == "root") {
+    branch.classList.add("expanded");
+  }
+
+  let directoryArrow = document.createElement("div");
+  directoryArrow.classList.add("directory-arrow");
+  branch.appendChild(directoryArrow);
+
   let name = document.createElement("div");
   name.className = "directory-name";
   name.innerText = directoryName;
@@ -778,9 +791,21 @@ function buildDirectoryTree(directoryName, subdirectories) {
 
   let subBranch = document.createElement("ul");
   subBranch.className = "subdirectories";
+
+  let sortedSubdirectories = Object.keys(subdirectories).sort().reduce(
+    (obj, key) => { 
+      obj[key] = subdirectories[key]; 
+      return obj;
+    }, 
+    {}
+  );
   
-  for (key of Object.keys(subdirectories)) {
-    subBranch.append(buildDirectoryTree(key, subdirectories[key]));
+  for (key of Object.keys(sortedSubdirectories)) {
+    subBranch.append(buildDirectoryTree(key, sortedSubdirectories[key]));
+
+    if (!branch.classList.contains('has-children')) {
+      branch.classList.add('has-children');
+    }
   }
 
   branch.appendChild(subBranch);

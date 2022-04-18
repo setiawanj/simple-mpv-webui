@@ -434,7 +434,7 @@ input[type=range]:focus {
   padding-top: 15px;
 }
 
-.directories li:before {
+.directories li.has-children > .directory-arrow {
   width: 0.8rem;
   height: 0.8rem;
   content: ' ';
@@ -443,26 +443,42 @@ input[type=range]:focus {
   background-repeat: no-repeat;
   left: -1.2rem;
   background-position: center;
+  border: 10px solid transparent;
+  margin-left: -10px;
+  margin-top: -10px;
+  opacity: 0.3;
+  transition: opacity 200ms;
 }
 
-li > .subdirectories {
-  padding-inline-start: 30px;
-  display: none;
-}
-
-li[data-expanded='true'] > .subdirectories {
-  display: block;
-}
-
-.directories li[data-expanded='true']:before {
+.directories li.has-children.expanded > .directory-arrow {
   background-image: url(static/svg/bottom-arrow.svg);
 }
 
+.directories li.has-children > .directory-arrow:hover {
+  opacity: 1;
+}
+
+li > .subdirectories {
+  padding-inline-start: 20px;
+  display: none;
+}
+
+li.expanded > .subdirectories {
+  display: block;
+}
+
 .directory-name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    padding-right: 1em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-right: 1em;
+  border: 10px solid transparent;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.directory-name:hover {
+  text-decoration: underline;
 }
 
 .playlist {
