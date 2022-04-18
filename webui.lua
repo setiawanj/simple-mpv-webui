@@ -1,7 +1,6 @@
 require 'mp.options'
 require 'mp.msg'
 utils = require 'mp.utils'
-local json = require 'json'
 local socket = require("socket")
 local dec64 = require("mime").decode("base64")
 local url = require("socket.url")
@@ -28,8 +27,8 @@ local options = {
   audio_devices = '',
   static_dir = script_path() .. "webui-page",
   htpasswd_path = "",
-  browser_path = "/Users/jason/",
-  browser_folder = "TV Shows",
+  browser_path = "/home/pi/pictures/",
+  browser_folder = "share",
 }
 read_options(options, "webui")
 
@@ -737,7 +736,7 @@ local endpoints = {
   ["api/directory_structure"] = {
     GET = function()
 
-      return response(200, "plain", json:encode(get_subdirectories(options.browser_path, options.browser_folder)), {})
+      return response(200, "plain", utils.format_json(get_subdirectories(options.browser_path, options.browser_folder)), {})
 
     end
   }
