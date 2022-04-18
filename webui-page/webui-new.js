@@ -765,6 +765,7 @@ function handleDirectoriesResponse(directories) {
   let root = document.querySelector("div.directories > ul.subdirectories");
   root.innerHTML = "";
   root.appendChild(buildDirectoryTree("root", directories));
+  
   let arrows = document.querySelectorAll(".directory-arrow");
   arrows.forEach(arrow => {
     arrow.addEventListener('click', e => {
@@ -772,12 +773,30 @@ function handleDirectoriesResponse(directories) {
     });
   });
 
+  let directoryNames = document.querySelectorAll(".directory-name");
+  directoryNames.forEach(node => {
+    node.addEventListener('click', e => {
+      let path = buildPath(e.currentTarget, e.currentTarget.innerText);
+      send('load_directory', encodeURIComponent(path));
+    });
+  });
+}
+
+function buildPath(node, path) {
+  let nextNode = node.parentNode.parentNode.previousSibling;
+
+  if (!nextNode.parentNode.classList.contains("directory-root")) {
+    return buildPath(nextNode, nextNode.innerText + '/' + path);
+  }
+  else {
+    return '/' + path;
+  }
 }
 
 function buildDirectoryTree(directoryName, subdirectories) {
   let branch = document.createElement("li");
   if (directoryName == "root") {
-    branch.classList.add("expanded");
+    branch.classList.add("expanded", "directory-root");
   }
 
   let directoryArrow = document.createElement("div");

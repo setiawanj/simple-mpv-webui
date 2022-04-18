@@ -475,6 +475,7 @@ li.expanded > .subdirectories {
   border: 10px solid transparent;
   margin-top: -10px;
   margin-bottom: -10px;
+  cursor: pointer;
 }
 
 .directory-name:hover {

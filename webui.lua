@@ -688,6 +688,29 @@ local endpoints = {
     end
   },
 
+  ["api/load_directory"] = {
+    POST = function(request)
+      local uri, mode = request.param1, request.param2
+      if uri == "" or type(uri) ~= "string" then
+        return response(400, "json", utils.format_json({message = "No directory provided!"}), {})
+      end
+      if mode ~= nil and
+              mode ~= "" and
+              mode ~= "replace" and
+              mode ~= "append" and
+              mode ~= "append-play"
+      then
+        return response(400, "json", utils.format_json({message = "Invalid mode: '" .. mode .. "'"}), {})
+      end
+      if mode == nil or mode == "" then
+        mode = "replace"
+      end
+      local _, success, ret = pcall(mp.commandv, "loadfile", options.browser_path .. options.browser_folder .. uri, mode)
+      pcall(mp.set_property_bool, "pause", false)
+      return handle_post(success, ret)
+    end
+  },
+
   ["api/toggle_panscan"] = {
     POST = function(_)
       local panscan = mp.get_property('panscan') + 0.0
