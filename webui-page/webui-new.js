@@ -761,6 +761,56 @@ function setupNotification({duration, speed, position}) {
   }
 }
 
+function handleDirectoriesResponse(directories) {
+  let root = document.querySelector("div.directories > ul.subdirectories");
+  root.innerHTML = "";
+  root.appendChild(buildDirectoryTree("root", directories));
+
+}
+
+function buildDirectoryTree(directoryName, subdirectories) {
+  let branch = document.createElement("li");
+  branch.dataset.expanded = 'true';
+  let name = document.createElement("div");
+  name.className = "directory-name";
+  name.innerText = directoryName;
+  branch.appendChild(name);
+
+  let subBranch = document.createElement("ul");
+  subBranch.className = "subdirectories";
+  
+  for (key of Object.keys(subdirectories)) {
+    subBranch.append(buildDirectoryTree(key, subdirectories[key]));
+  }
+
+  branch.appendChild(subBranch);
+
+  return branch;
+}
+
+function getDirectories(){
+  const request = new XMLHttpRequest();
+  request.open("get", "/api/directory_structure");
+
+  request.onreadystatechange = function() {
+    if (request.readyState === 4 && request.status === 200) {
+      const json = JSON.parse(request.responseText);
+      handleDirectoriesResponse(json);
+    } else if (request.status === 503) {
+      console.log("503 response on directory structure request");
+    } else if (request.status === 0) {
+      console.log("No response on directory structure request");
+    }
+  };
+
+  try {
+    request.send(null);
+  }
+  catch(err) {
+    console.log("Status request failed");
+  }
+}
+
 // Toggle between high-refresh when active, but low-refresh when backgrounded.
 let refreshInterval;
 let nextPeriodicRefresh;
@@ -779,3 +829,4 @@ function refreshStatus() {
 
 document.addEventListener('visibilitychange', refreshStatus, false);
 refreshStatus();
+getDirectories();

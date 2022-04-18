@@ -7,6 +7,7 @@ local url = require("socket.url")
 
 local MSG_PREFIX = "[webui] "
 local VERSION = "2.2.0"
+local directory_structure = nil
 
 function string.starts(String, Start)
   return string.sub(String,1,string.len(Start))==Start
@@ -247,10 +248,6 @@ local function get_subdirectories(path, folder)
     return {}
   else 
     local subdirectories = {}
-
-    -- for key, value in pairs(directories) do
-    --   directories[key] = directory .. "/" .. value
-    -- end
 
     for key, value in pairs(directories) do
       subdirectories[value] = get_subdirectories(path .. folder .. "/", value)
@@ -736,7 +733,11 @@ local endpoints = {
   ["api/directory_structure"] = {
     GET = function()
 
-      return response(200, "plain", utils.format_json(get_subdirectories(options.browser_path, options.browser_folder)), {})
+      if directory_structure == nil then
+        directory_structure = get_subdirectories(options.browser_path, options.browser_folder)
+      end
+
+      return response(200, "plain", utils.format_json(directory_structure), {})
 
     end
   }
