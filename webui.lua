@@ -28,8 +28,8 @@ local options = {
   audio_devices = '',
   static_dir = script_path() .. "webui-page",
   htpasswd_path = "",
-  browser_path = "/home/pi/pictures/",
-  browser_folder = "share",
+  browser_path = "/home/pi/",
+  browser_folder = "media",
 }
 read_options(options, "webui")
 

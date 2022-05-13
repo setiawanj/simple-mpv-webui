@@ -85,7 +85,7 @@ function createPlaylistItem(entry, position, pause, first) {
   }
 
   let itemTitle = document.createElement("div");
-  itemTitle.classList.add("playlist-item-title", "lcd-font");
+  itemTitle.classList.add("playlist-item-title");
   itemTitle.innerText = title;
 
   let itemRemove = document.createElement("div");
