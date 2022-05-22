@@ -209,14 +209,24 @@ input[type=range]:focus {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  width: calc(100% - 60px);
+  width: calc(100% - 32px);
   margin-top: 8px;
+  position: relative;
+  left: -6px;
 }
 
 .volume-marker {
   color: #808080;
   transform: translateX(20%);
   position: relative;
+  cursor: pointer;
+  transition: color 200ms;
+  width: 3em;
+  text-align: center;
+}
+
+.volume-marker:hover {
+  color: #ffffff;
 }
 
 .volume-marker:before {

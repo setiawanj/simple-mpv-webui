@@ -483,8 +483,17 @@ document.getElementById("volume").addEventListener('touchend', handleVolumeEnd, 
 
 document.getElementById("volume").onchange = function() {
   const slider = document.getElementById("volume");
+  console.log("Volume: " + slider.value);
   send("set_volume", slider.value);
 };
+
+document.querySelectorAll(".volume-marker").forEach(vm => {
+  vm.onclick = function () {
+    const vol = document.querySelector("#volume");
+    vol.value = vm.innerHTML;
+    vol.onchange();
+  }
+});
 
 document.getElementById("volume").onmousemove = function(e) {
   const slider = e.target;
