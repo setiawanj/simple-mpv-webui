@@ -1,5 +1,6 @@
 require 'mp.options'
 require 'mp.msg'
+require "io"
 utils = require 'mp.utils'
 local socket = require("socket")
 local dec64 = require("mime").decode("base64")
@@ -157,13 +158,13 @@ local function build_status_response()
   fail = false
   for k, v in pairs(values) do
     if v == '' then
-      mp.msg.log("WARN", 'Could not fetch "'.. k .. '" from mpv.')
+      --mp.msg.log("WARN", 'Could not fetch "'.. k .. '" from mpv.')
       fail = true
     end
   end
 
   if fail then
-      mp.msg.log("WARN", 'This is normal during startup.')
+      --mp.msg.log("WARN", 'This is normal during startup.')
       return false
   end
 
@@ -756,11 +757,17 @@ local endpoints = {
   ["api/directory_structure"] = {
     GET = function()
 
-      if directory_structure == nil then
-        directory_structure = get_subdirectories(options.browser_path, options.browser_folder)
+      if (directory_structure == nil or directory_structure == "") then
+        local json = utils.format_json(get_subdirectories(options.browser_path, options.browser_folder))
+        directory_structure = json
+
+        local file = io.open(mp.get_script_directory() .. "/directory.json", "w")
+        io.output(file)
+        io.write(json)
+        io.close(file)
       end
 
-      return response(200, "plain", utils.format_json(directory_structure), {})
+      return response(200, "plain", directory_structure, {})
 
     end
   }
@@ -1000,6 +1007,20 @@ local function init_servers()
   return servers
 end
 
+local function load_directories_json()
+  local file = io.open(mp.get_script_directory() .. "/directory.json", "r")
+  if file ~= nil then
+    io.input(file)
+    directory_structure = io.read("*a")
+    io.close(file)
+    mp.msg.info("Directory structure loaded from json file.")
+    return true
+  else
+    mp.msg.info("File not found  (" .. mp.get_script_directory() .. "/directory.json). Directory structure will be generated and saved upon page load.")
+    return nil
+  end
+end
+
 if options.disable then
   mp.msg.info("disabled")
   message = function() log_osd("disabled") end
@@ -1037,3 +1058,5 @@ if passwd ~= 1 then
   mp.register_event("file-loaded", message)
   mp.register_event("file-loaded", function() mp.unregister_event(message) end)
 end
+
+load_directories_json()
