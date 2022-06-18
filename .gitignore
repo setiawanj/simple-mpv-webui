@@ -3,3 +3,4 @@
 dummy/
 __pycache__/
 directory.json
+.DS_Store
