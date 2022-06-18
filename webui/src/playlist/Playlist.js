@@ -6,7 +6,7 @@ import PlaylistCell from './PlaylistCell';
 const Playlist = () => {
 	return (
 		<div>
-			<div>Playlist</div>
+			Playlist
 			<PlaylistButton />
 			<PlaylistHeader />
 			<PlaylistCell />

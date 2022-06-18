@@ -4,7 +4,7 @@ import SeekBar from './SeekBar';
 const PlaybackController = () => {
 	return (
 		<div>
-			<div>PlaybackController</div>
+			PlaybackController
 			<PlaybackButton />
 			<SeekBar />
 		</div>

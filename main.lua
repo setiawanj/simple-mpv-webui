@@ -27,7 +27,7 @@ local options = {
   ipv4 = true,
   ipv6 = true,
   audio_devices = '',
-  static_dir = script_path() .. "webui-page",
+  static_dir = script_path(),
   htpasswd_path = "",
   browser_path = "/home/pi/",
   browser_folder = "media",
@@ -819,7 +819,7 @@ end
 
 local function handle_static_get(path)
   if path == "/" then
-    path = 'index-new.html'
+    path = 'webui/build/index.html'
   end
 
   local content = read_file(options.static_dir .. "/" .. path)
