@@ -21,7 +21,7 @@ function send(command, ...args) {
   // if (useNotifications()) {
   //   audioLoad();
   // }
-  const path = ['api', command, ...args].join('/');
+  const path = ['/api', command, ...args].join('/');
 
   const request = new XMLHttpRequest();
   request.open("post", path);

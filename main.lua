@@ -158,7 +158,7 @@ local function build_status_response()
   fail = false
   for k, v in pairs(values) do
     if v == '' then
-      --mp.msg.log("WARN", 'Could not fetch "'.. k .. '" from mpv.')
+--      mp.msg.log("WARN", 'Could not fetch "'.. k .. '" from mpv.')
       fail = true
     end
   end
@@ -186,6 +186,7 @@ local function get_content_type(file_type)
     ttf       = "font/ttf",
     mp3         = "audio/mpeg",
     webmanifest = "application/manifest+json; charset=UTF-8",
+    map         = "application/json",
   }
   content_type = content_types[file_type]
   if content_type == nil then
@@ -863,7 +864,7 @@ local function call_endpoint(endpoint, req_method, request)
     return response(
             405,
             "plain",
-            "Error: Method not allowed",
+            "Error: Method not allowed. Method: " .. req_method,
             {Allow = table_key_concat(endpoint, ",") .. ",OPTIONS"}
     )
   end
@@ -881,6 +882,9 @@ local function handle_request(request, passwd)
   end
 
   local endpoint = endpoints[request.path]
+
+  --mp.msg.error("request.path: " .. request.path)
+
   if endpoint ~= nil then
     return call_endpoint(endpoint, request.method, request)
   end
