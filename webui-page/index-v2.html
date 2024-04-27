@@ -1,0 +1,181 @@
+<html>
+  <head>
+    <title>MPV Controller</title>
+    <link rel="stylesheet" type="text/css" href="style-v2.css">
+  </head>
+
+  <div class="main-controls">
+
+    <div class="title" id="title"></div>
+
+    <div class="playback-control-container">
+      <div class="playback-controls">
+        <div class="previous-track medium-convex-gloss" onclick="send('playlist_prev')">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="105px" height="47px">
+            <path id="inset-shadow" fill-rule="evenodd"  fill="#ffffffff" d="M59.850,21.833 L59.850,41.500 L18.342,21.589 L59.850,2.370 L59.850,21.354 L100.850,2.370 L100.850,41.500 L59.850,21.833 ZM3.978,2.875 L17.813,2.875 L17.813,41.304 L3.978,41.304 L3.978,2.875 Z"/>
+          </svg>
+        </div>
+        <div class="rewind medium-convex-gloss" onclick="send('seek', '-10')">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="89px" height="47px">
+            <path id="inset-shadow" fill-rule="evenodd"  fill="#ffffffff" d="M85.006,41.005 L44.255,22.082 L44.255,41.005 L2.998,21.847 L44.255,2.000 L44.255,21.604 L85.006,2.000 L85.006,41.005 Z"/>
+          </svg>
+        </div>
+        <div class="pause-play medium-convex-gloss" onclick="send('toggle_pause')">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="94px" height="47px">
+            <path id="inset-shadow" fill-rule="evenodd"  fill="#ffffffff" d="M47.962,41.505 L47.962,2.375 L89.471,22.286 L47.962,41.505 ZM23.752,2.571 L37.586,2.571 L37.586,42.000 L23.752,42.000 L23.752,2.571 ZM3.000,2.571 L16.835,2.571 L16.835,42.000 L3.000,42.000 L3.000,2.571 Z"/>
+          </svg>
+        </div>
+        <div class="fast-forward medium-convex-gloss" onclick="send('seek', '10')">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="91px" height="47px">
+            <path id="inset-shadow" fill-rule="evenodd"  fill="#ffffffff" d="M86.471,22.286 L44.962,41.505 L44.962,22.521 L3.962,41.505 L3.962,2.375 L44.962,22.042 L44.962,2.375 L86.471,22.286 Z"/>
+          </svg>
+        </div>
+        <div class="next-track medium-convex-gloss" onclick="send('playlist_next')">
+          <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="105px" height="47px">
+            <path id="inset-shadow" fill-rule="evenodd"  fill="#ffffffff" d="M87.000,41.000 L87.000,2.571 L100.835,2.571 L100.835,41.000 L87.000,41.000 ZM44.962,22.521 L3.962,41.505 L3.962,2.375 L44.962,22.042 L44.962,2.375 L86.471,22.286 L44.962,41.505 L44.962,22.521 Z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="seek">
+      <div class="current-time">00:00:00</div>
+      <div class="seekbar">
+        <input type="range" min="0" max="1219.485" value="0" step="any" class="slider" id="mediaPosition" list="chapters" title="00:03:48">
+      </div>
+      <div class="total-time">00:10:00</div>
+    </div>
+
+    <div class="bottom-controls">
+      <div class="playback-details">
+        <div class="detail speed">
+          <div class="detail-label">PLAYBACK SPEED</div>
+          <div class="detail-value">1.0</div>
+        </div>
+        <div class="detail subtitle-delay">
+          <div class="detail-label">SUBTITLE DELAY</div>
+          <div class="detail-value">0</div>
+        </div>
+        <div class="detail audio-delay">
+          <div class="detail-label">AUDIO DELAY</div>
+          <div class="detail-value">1.0</div>
+        </div>
+        <div class="detail subtitle-track">
+          <div class="detail-label">SUBTITLE TRACK</div>
+          <div class="detail-value">0/0</div>
+        </div>
+        <div class="detail audio-track">
+          <div class="detail-label">AUDIO TRACK</div>
+          <div class="detail-value">0/0</div>
+        </div>
+      </div>
+
+      <div class="small-icons">
+        <svg style="display: none;">
+          <defs>
+            <filter id="icon-glow" x="-20%" y="-20%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#d7f7ff" />
+            </filter>
+          </defs>
+        </svg>
+        <div class="play-small-icon"></div>
+        <div class="pause-small-icon"></div>
+        <div class="loop-one-small-icon"></div>
+        <div class="loop-all-small-icon"></div>
+        <div class="frame-fill-small-icon"></div>
+        <div class="frame-fit-small-icon"></div>
+        <div class="info-small-icon"></div>
+      </div>
+
+      <div class="more-functions">
+        <div class="section">
+          <div class="single-button loop-button">
+            <div class="small-button" onClick="playlist_loop_cycle()"></div>
+            <div class="small-button-label">LOOP</div>
+          </div>
+          <div class="single-button">
+            <div class="small-button"></div>
+            <div class="small-button-label">SUBTITLE TRACK</div>
+          </div>
+          <div class="single-button">
+            <div class="small-button"></div>
+            <div class="small-button-label">AUDIO TRACK</div>
+          </div>
+          <div class="single-button panscan-button">
+            <div class="small-button" onClick="panscanToggle()"></div>
+            <div class="small-button-label">PANSCAN</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section volume-slider">
+        <input type="range" min="0" max="100" value="0" step="any" class="slider" id="volume">
+          <div class="volume-markers">
+            <div class="volume-marker">0</div>
+            <div class="volume-marker">20</div>
+            <div class="volume-marker">40</div>
+            <div class="volume-marker">60</div>
+            <div class="volume-marker">80</div>
+            <div class="volume-marker">100</div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controller-container">
+
+    <div class="controls">
+
+      <div class="bottom-section">
+        <div class="file-changer">
+          <div class="file-changer-label">FILE BROWSER</div>
+          <div class="slot-loader">
+            <div class="slot">
+
+              <script>
+                function loadfile () {
+                  let loadfileText = document.querySelector(".file-loader");
+                  let uri = loadfileText.value;
+                  send('loadfile', encodeURIComponent(uri));
+                  loadfileText.value = '';
+                }
+              </script>
+
+              <input type="text" class="file-loader">
+            </div>
+            <div class="slot-button" onClick="loadfile()"></div>
+          </div>
+          <div class="file-browser">
+            <div class="directories">
+
+              <ul class="subdirectories">
+                <li>Loading...</li>
+              </ul>
+
+            </div>
+            <div class="playlist">
+              <div class="playlist-item">
+                <div class="playlist-item-led"></div>
+                <div class="playlist-item-title">Video 1.mp4</div>
+                <div class="playlist-item-remove"></div>
+              </div>
+              <div class="playlist-item">
+                <div class="playlist-item-led"></div>
+                <div class="playlist-item-title">Video 2.mp4</div>
+                <div class="playlist-item-remove"></div>
+              </div>
+              <div class="playlist-item">
+                <div class="playlist-item-led"></div>
+                <div class="playlist-item-title">Video 3.mp4</div>
+                <div class="playlist-item-remove"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="webui-new.js"></script>
+
+</html>
